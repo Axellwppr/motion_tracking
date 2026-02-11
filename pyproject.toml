@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=67"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "active-adaptation"
+version = "0.0.0"
+description = "Whole-body motion tracking training and evaluation pipeline"
+readme = "README.md"
+requires-python = "==3.10.*"
+authors = [{ name = "Axell team" }]
+keywords = ["robotics", "reinforcement-learning", "motion-tracking"]
+dependencies = [
+  "hydra-core",
+  "omegaconf",
+  "mujoco",
+  "wandb",
+  "moviepy",
+  "imageio",
+  "xxhash",
+  "einops",
+  "termcolor",
+  "setproctitle",
+  "torch==2.7.0",
+  "tensordict==0.7.2",
+  "torchrl==0.7.2",
+  "torchvision",
+  "onnxscript",
+  "onnxruntime",
+  "tqdm",
+  "matplotlib",
+  "numpy",
+  "h5py",
+  "scipy",
+  "markupsafe==2.1.5",
+  "isaacsim[all,extscache]==4.5.0 ; platform_system == 'Linux'",
+  # IsaacLab placeholder; install via editable source (see README for steps).
+  "isaaclab==2.2.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["active_adaptation", "active_adaptation.*"]
+
+# uv package index configuration; keeps PyPI as default fallback.
+[[tool.uv.index]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cu128"
+
+[[tool.uv.index]]
+name = "nvidia"
+url = "https://pypi.nvidia.com"
+
+[tool.uv.sources]
+# Use local editable IsaacLab source to keep config/extension.toml and all subpackages available.
+isaaclab = { path = "third_party/IsaacLab/source/isaaclab", editable = true }

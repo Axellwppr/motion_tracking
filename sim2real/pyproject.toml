@@ -1,0 +1,27 @@
+[project]
+name = "sim2real"
+version = "0.1.0"
+description = "Sim-to-real deployment utilities for Unitree G1"
+readme = "README.md"
+requires-python = "==3.10.*"
+dependencies = [
+    "linuxfd",
+    "mujoco",
+    "numpy",
+    "onnxruntime",
+    "pyyaml",
+    "scipy",
+    "sshkeyboard",
+    "unitree-sdk2py",
+]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.uv]
+# This project is a script-based app; leave packaging disabled.
+package = false
+
+[tool.uv.sources]
+unitree-sdk2py = { git = "https://github.com/EGalahad/unitree_sdk2_python.git" }

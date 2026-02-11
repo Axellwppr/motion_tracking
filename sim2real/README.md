@@ -1,7 +1,21 @@
 
 # Sim2Real Deployment
 
-## Install 
+### Install & run with uv (recommended)
+`uv` handles isolated envs + lockfiles; it will auto-read `pyproject.toml` in this folder.
+
+```bash
+cd sim2real
+# create .venv and install deps from pyproject/uv.lock if present
+uv sync
+
+# run scripts through uv to pick up the venv automatically
+uv run src/sim2sim.py --xml_path assets/g1/g1.xml      # sim bridge
+uv run src/deploy.py --net lo --sim2sim                # controller (sim)
+uv run src/motion_select.py                            # motion selector
+```
+
+## Install
 - Create conda environment
   ```
   conda create -n gentle python=3.10
@@ -12,7 +26,8 @@
   ```bash
   pip install -r requirements.txt
   ```
-Tested on Ubuntu 22.04 with Python 3.10
+
+
 
 ## Run Sim2Sim
 1. Start the simulator (state publisher + keyboard bridge):

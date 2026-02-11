@@ -14,38 +14,12 @@ Instructions for **real-robot deployment** and the use of **pretrained models** 
 
 ## Installation
 
-1. Create a Conda environment.
 ```bash
-conda create -n gentle python=3.10
-conda activate gentle
-```
-
-2. Install Torch.
-```bash
-pip install torch==2.7.0 torchvision==0.22.0 --index-url https://download.pytorch.org/whl/cu128
-```
-
-3. Install Isaac Sim. Support Ubuntu 22.04 only. For 20.04, please check [here](https://isaac-sim.github.io/IsaacLab/v2.1.0/source/setup/installation/binaries_installation.html).
-```bash
-pip install 'isaacsim[all,extscache]==4.5.0' --extra-index-url https://pypi.nvidia.com
-# Test Isaacsim
-isaacsim
-```
-4. Install Isaac Lab.
-```
-cd <where you want to install IsaacLab>
-git clone git@github.com:isaac-sim/IsaacLab.git
-cd IsaacLab
-git checkout v2.2.0
-./isaaclab.sh -i none
-```
-
-5. Install this repo.
-```
-cd <where you want to install repo>
-git clone https://github.com/Axellwppr/motion_tracking.git
-cd motion_tracking
-pip install -e .
+# 1) clone IsaacLab for editable installation
+git clone https://github.com/isaac-sim/IsaacLab.git third_party/IsaacLab
+git -C third_party/IsaacLab checkout v2.2.0
+# 2) install dependencies via uv
+uv sync
 ```
 
 ## Motion Dataset Preparation
@@ -98,6 +72,6 @@ Such adjustments may increase training time and could affect training performanc
 ## Evaluation
 
 ```bash
-python scripts/eval.py --run_path ${wandb_run_path} -p # p for play
-python scripts/eval.py --run_path ${wandb_run_path} -p --export # export the policy to onnx (sim2real)
+uv run scripts/eval.py --run_path ${wandb_run_path} -p # p for play
+uv run scripts/eval.py --run_path ${wandb_run_path} -p --export # export the policy to onnx (sim2real)
 ```
