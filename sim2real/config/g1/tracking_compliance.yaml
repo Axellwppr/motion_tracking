@@ -1,0 +1,54 @@
+# low latency
+policy_path: "ckpts/G1_Compliance/policy.onnx"
+use_compliance_flag_obs: true
+compliance_flag_value: 1.0 # 0.0 to disable compliance, 1.0 to enable compliance
+compliance_flag_threshold: 10.0 # 10.0 ~ 20.0
+future_steps: [0, 1, 2, 3, 4, -1, -2, -4, -8, -12, -16] # format: [0, ...future, ...history]
+motion_source:
+  type: "udp"
+  udp:
+    enable: true
+    host: "127.0.0.1"
+    port: 28562
+  vr:
+    req_addr: "tcp://127.0.0.1:28701"
+    rep_addr: "tcp://127.0.0.1:28702"
+    ctrl_addr: "tcp://127.0.0.1:28703"
+    low_watermark: 5 # when to request frame
+    high_watermark: 5 # when to stop requesting frame; should be >= low_watermark
+    inflight_lifetime_steps: 0 # how many steps to wait before considering an inflight request as failed
+root_linacc_history_steps: [0, 1, 2, 3, 4, 8, 12, 16, 20]
+root_angvel_history_steps: [0, 1, 2, 3, 4, 8, 12, 16, 20]
+projected_gravity_history_steps: [0, 1, 2, 3, 4, 8, 12, 16, 20]
+joint_pos_history_steps: [0, 1, 2, 3, 4, 8, 12, 16, 20]
+joint_vel_history_steps: [0, 1, 2, 3, 4, 8, 12, 16, 20]
+prev_action_steps: 8
+switch_tail_keep_steps: 8 # keep old ref tail on motion switch; final keep is max(this, abs(min(future_steps)))
+boot_indicator_max: 25
+
+motions:
+  - name: "walk1_subject1"
+    path: "motions/walk1_subject1.npz"
+    start: 0
+    end: -1
+  - name: "walk2_subject1"
+    path: "motions/walk2_subject1.npz"
+    start: 0
+    end: -1
+  - name: "walk3_subject1"
+    path: "motions/walk3_subject1.npz"
+    start: 0
+    end: -1
+motion_clips:
+  - name: "default"
+    joint_pos: [-0.2800000011920929, 0.0, 0.0, 0.5, -0.23000000417232513, 0.0, -0.2800000011920929, 0.0, 0.0, 0.5, -0.23000000417232513, 0.0, 0.0, 0.0, 0.0, 0.3499999940395355, 0.1599999964237213, 0.0, 0.8700000047683716, 0.0, 0.0, 0.0, 0.3499999940395355, -0.1599999964237213, 0.0, 0.8700000047683716, 0.0, 0.0, 0.0]
+    root_quat: [1., 0., 0., 0.]
+    root_pos: [0.0, 0.0, 0.78]
+
+action_clip: 10.0
+
+action_joint_names: ['left_hip_pitch_joint', 'right_hip_pitch_joint', 'waist_yaw_joint', 'left_hip_roll_joint', 'right_hip_roll_joint', 'waist_roll_joint', 'left_hip_yaw_joint', 'right_hip_yaw_joint', 'waist_pitch_joint', 'left_knee_joint', 'right_knee_joint', 'left_shoulder_pitch_joint', 'right_shoulder_pitch_joint', 'left_ankle_pitch_joint', 'right_ankle_pitch_joint', 'left_shoulder_roll_joint', 'right_shoulder_roll_joint', 'left_ankle_roll_joint', 'right_ankle_roll_joint', 'left_shoulder_yaw_joint', 'right_shoulder_yaw_joint', 'left_elbow_joint', 'right_elbow_joint', 'left_wrist_roll_joint', 'right_wrist_roll_joint', 'left_wrist_pitch_joint', 'right_wrist_pitch_joint', 'left_wrist_yaw_joint', 'right_wrist_yaw_joint']
+
+action_scale: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.0, 1.0, 0.5, 0.5, 1.0, 1.0, 0.5, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0] # AMASS model action scale
+
+dataset_joint_names: ["left_hip_pitch_joint", "left_hip_roll_joint", "left_hip_yaw_joint", "left_knee_joint", "left_ankle_pitch_joint", "left_ankle_roll_joint", "right_hip_pitch_joint", "right_hip_roll_joint", "right_hip_yaw_joint", "right_knee_joint", "right_ankle_pitch_joint", "right_ankle_roll_joint", "waist_yaw_joint", "waist_roll_joint", "waist_pitch_joint", "left_shoulder_pitch_joint", "left_shoulder_roll_joint", "left_shoulder_yaw_joint", "left_elbow_joint", "left_wrist_roll_joint", "left_wrist_pitch_joint", "left_wrist_yaw_joint", "right_shoulder_pitch_joint", "right_shoulder_roll_joint", "right_shoulder_yaw_joint", "right_elbow_joint", "right_wrist_roll_joint", "right_wrist_pitch_joint", "right_wrist_yaw_joint"]

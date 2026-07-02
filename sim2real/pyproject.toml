@@ -1,0 +1,24 @@
+[project]
+name = "gmt-sim2real"
+version = "0.1.0"
+description = "Sim2Real and Sim2Sim runtime for motion tracking deployment"
+readme = "README.md"
+requires-python = ">=3.10,<3.11"
+dependencies = [
+  "linuxfd",
+  "mink>=1.1.0",
+  "mjviser>=0.0.11",
+  "mujoco",
+  "numpy",
+  "onnxruntime",
+  "pin>=3.9.0",
+  "pybind11>=3.0.3",
+  "pyyaml",
+  "pyzmq>=27.1.0",
+  "scipy",
+  "sshkeyboard",
+]
+
+[tool.uv]
+# This repo is script-oriented; only manage deps/env with uv.
+package = false

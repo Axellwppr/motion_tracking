@@ -1,0 +1,66 @@
+control_freq: 50
+
+udp:
+  state_bind_host: "127.0.0.1"
+  state_port: 56001
+  cmd_host: "127.0.0.1"
+  cmd_port: 56002
+
+extra_command:
+  hand_enable: 1
+  hand_left: 1.0
+  hand_right: 1.0
+
+hand_control:
+  enabled: true
+  left_stick: "ly"
+  right_stick: "ry"
+  deadband: 0.1
+  rate: 1.0
+  up_opens: true
+
+policy_joint_names: [
+  "left_hip_roll_joint", "left_hip_yaw_joint", "left_hip_pitch_joint", "left_knee_joint", "left_ankle_pitch_joint", "left_ankle_roll_joint",
+  "right_hip_roll_joint", "right_hip_yaw_joint", "right_hip_pitch_joint", "right_knee_joint", "right_ankle_pitch_joint", "right_ankle_roll_joint",
+  "waist_yaw_joint", "waist_roll_joint", "waist_pitch_joint",
+  "left_shoulder_pitch_joint", "left_shoulder_roll_joint", "left_arm_yaw_joint", "left_elbow_pitch_joint", "left_elbow_yaw_joint", "left_wrist_pitch_joint", "left_wrist_roll_joint",
+  "right_shoulder_pitch_joint", "right_shoulder_roll_joint", "right_arm_yaw_joint", "right_elbow_pitch_joint", "right_elbow_yaw_joint", "right_wrist_pitch_joint", "right_wrist_roll_joint"
+]
+
+# 0510.1
+# kps: [
+#   200.0, 80.0, 200.0, 200.0, 60.0, 60.0,
+#   200.0, 80.0, 200.0, 200.0, 60.0, 60.0,
+#   80.0, 250.0, 250.0,
+#   30.0, 30.0, 30.0, 30.0, 17.0, 17.0, 17.0,
+#   30.0, 30.0, 30.0, 30.0, 17.0, 17.0, 17.0
+# ]
+
+# kds: [
+#   12.6, 5.1, 12.6, 12.6, 3.6, 3.6,
+#   12.6, 5.1, 12.6, 12.6, 3.6, 3.6,
+#   5.1, 5.0, 5.0,
+#   1.8, 1.8, 1.8, 1.8, 1.1, 1.1, 1.1,
+#   1.8, 1.8, 1.8, 1.8, 1.1, 1.1, 1.1
+# ]
+
+# 0513.6
+kps: [
+  200.0, 80.0, 200.0, 200.0, 60.0, 60.0,
+  200.0, 80.0, 200.0, 200.0, 60.0, 60.0,
+  80.0, 500.0, 500.0,
+  200.0, 200.0, 200.0, 200.0, 100.0, 100.0, 100.0,
+  200.0, 200.0, 200.0, 200.0, 100.0, 100.0, 100.0
+]
+
+kds: [
+  12.6, 5.1, 12.6, 12.6, 3.6, 3.6,
+  12.6, 5.1, 12.6, 12.6, 3.6, 3.6,
+  5.1, 20.0, 20.0,
+  10.0, 10.0, 10.0, 10.0, 5.0, 5.0, 5.0,
+  10.0, 10.0, 10.0, 10.0, 5.0, 5.0, 5.0
+]
+
+default_qpos: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+init_qpos: [0.0, 0.0, 0.3, -0.55, 0.25, 0.0, 0.0, 0.0, 0.3, -0.55, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.15, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.15, 0.0, 0.0, 0.0, 0.0, 0.0]

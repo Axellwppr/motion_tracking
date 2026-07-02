@@ -1,0 +1,18 @@
+*__pycache__*
+*egg-info
+*.DS_Store
+*.pyc
+*.png
+
+# Moved under assets/
+/assets/visuals/*
+/assets/plot/*
+/assets/*.npy
+/assets/ckpts_old/*
+/assets/
+/teleop/deps/
+
+/tools
+/teleop/debs
+/config/*/ckpts
+/config/*/motions

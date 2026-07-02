@@ -1,0 +1,87 @@
+policy_path: ckpts/L7_PMG/policy.onnx
+use_compliance_flag_obs: false
+compliance_flag_value: 1.0
+compliance_flag_threshold: 10.0
+future_steps: [0, 1, 2, 3, 4, 6, 8, 10, 12, 16, -1, -2, -4, -8]
+motion_source:
+  type: "udp"
+  udp:
+    enable: true
+    host: "127.0.0.1"
+    port: 28562
+  vr:
+    req_addr: "tcp://127.0.0.1:28701"
+    rep_addr: "tcp://127.0.0.1:28702"
+    ctrl_addr: "tcp://127.0.0.1:28703"
+    low_watermark: 17
+    high_watermark: 17
+    inflight_lifetime_steps: 0
+root_linacc_history_steps: [0, 1, 2, 3, 4, 8, 12, 16, 20]
+root_angvel_history_steps: [0, 1, 2, 3, 4, 8, 12, 16, 20]
+projected_gravity_history_steps: [0, 1, 2, 3, 4, 8, 12, 16, 20]
+joint_pos_history_steps: [0, 1, 2, 3, 4, 8, 12, 16, 20]
+joint_vel_history_steps: [0, 1, 2, 3, 4, 8, 12, 16, 20]
+prev_action_steps: 8
+switch_tail_keep_steps: 8
+boot_indicator_max: 25
+motions:
+- name: dance_hiphop_shuffle_sequence_v_001_R_001__A307
+  path: motions/seed_high_dynamic/dance_hiphop_shuffle_sequence_v_001_R_001__A307.npz
+  start: 0
+  end: -1
+- name: dance_hiphop_bounce_270_R_001__A312
+  path: motions/seed_high_dynamic/dance_hiphop_bounce_270_R_001__A312.npz
+  start: 0
+  end: -1
+- name: dance_retro_clap_step_variation_R_fast_001__A314
+  path: motions/seed_high_dynamic/dance_retro_clap_step_variation_R_fast_001__A314.npz
+  start: 0
+  end: -1
+- name: dance_hiphop_shot_pomp_it_270_R_004__A314
+  path: motions/seed_high_dynamic/dance_hiphop_shot_pomp_it_270_R_004__A314.npz
+  start: 0
+  end: -1
+- name: one_leg_jumping_R_003__A361
+  path: motions/seed_high_dynamic/one_leg_jumping_R_003__A361.npz
+  start: 0
+  end: -1
+- name: dance_latino_kick_kick_padeburee_R_003__A312
+  path: motions/seed_high_dynamic/dance_latino_kick_kick_padeburee_R_003__A312.npz
+  start: 0
+  end: -1
+- name: reach_jump_R_002__A200
+  path: motions/seed_high_dynamic/reach_jump_R_002__A200.npz
+  start: 0
+  end: -1
+- name: high_jump_R_002__A349
+  path: motions/seed_high_dynamic/high_jump_R_002__A349.npz
+  start: 0
+  end: -1
+- name: high_jump_ff_180_R_opt_1_001__A478
+  path: motions/seed_high_dynamic/high_jump_ff_180_R_opt_1_001__A478.npz
+  start: 0
+  end: -1
+motion_clips:
+- name: default
+  joint_pos: [0.0, 0.0, 0.3, -0.55, 0.25, 0.0, 0.0, 0.0, 0.3, -0.55, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.15, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.15, 0.0, 0.0, 0.0, 0.0, 0.0]
+  root_quat: [1.0, 0.0, 0.0, 0.0]
+  root_pos: [0.0, 0.0, 0.98865]
+action_clip: 10.0
+
+action_joint_names: [
+  "left_hip_roll_joint", "left_hip_yaw_joint", "left_hip_pitch_joint", "left_knee_joint", "left_ankle_pitch_joint", "left_ankle_roll_joint",
+  "right_hip_roll_joint", "right_hip_yaw_joint", "right_hip_pitch_joint", "right_knee_joint", "right_ankle_pitch_joint", "right_ankle_roll_joint",
+  "waist_yaw_joint", "waist_roll_joint", "waist_pitch_joint",
+  "left_shoulder_pitch_joint", "left_shoulder_roll_joint", "left_arm_yaw_joint", "left_elbow_pitch_joint", "left_elbow_yaw_joint", "left_wrist_pitch_joint", "left_wrist_roll_joint",
+  "right_shoulder_pitch_joint", "right_shoulder_roll_joint", "right_arm_yaw_joint", "right_elbow_pitch_joint", "right_elbow_yaw_joint", "right_wrist_pitch_joint", "right_wrist_roll_joint"
+]
+
+action_scale: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+dataset_joint_names: [
+  "left_hip_roll_joint", "left_hip_yaw_joint", "left_hip_pitch_joint", "left_knee_joint", "left_ankle_pitch_joint", "left_ankle_roll_joint",
+  "right_hip_roll_joint", "right_hip_yaw_joint", "right_hip_pitch_joint", "right_knee_joint", "right_ankle_pitch_joint", "right_ankle_roll_joint",
+  "waist_yaw_joint", "waist_roll_joint", "waist_pitch_joint",
+  "left_shoulder_pitch_joint", "left_shoulder_roll_joint", "left_arm_yaw_joint", "left_elbow_pitch_joint", "left_elbow_yaw_joint", "left_wrist_pitch_joint", "left_wrist_roll_joint",
+  "right_shoulder_pitch_joint", "right_shoulder_roll_joint", "right_arm_yaw_joint", "right_elbow_pitch_joint", "right_elbow_yaw_joint", "right_wrist_pitch_joint", "right_wrist_roll_joint"
+]

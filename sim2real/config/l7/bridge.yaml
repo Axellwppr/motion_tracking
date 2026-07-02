@@ -1,0 +1,23 @@
+render_gui: true
+xml_path: "assets/l7.xml"
+udp:
+  state_host: "127.0.0.1"
+  state_port: 56001
+  cmd_bind_host: "0.0.0.0"
+  cmd_port: 56002
+freq:
+  physical_hz: 500
+  state_decimation: 10
+viewer_fps: 10
+
+policy_joint_names: [
+  "left_hip_roll_joint", "left_hip_yaw_joint", "left_hip_pitch_joint", "left_knee_joint", "left_ankle_pitch_joint", "left_ankle_roll_joint",
+  "right_hip_roll_joint", "right_hip_yaw_joint", "right_hip_pitch_joint", "right_knee_joint", "right_ankle_pitch_joint", "right_ankle_roll_joint",
+  "waist_yaw_joint", "waist_roll_joint", "waist_pitch_joint",
+  "left_shoulder_pitch_joint", "left_shoulder_roll_joint", "left_arm_yaw_joint", "left_elbow_pitch_joint", "left_elbow_yaw_joint", "left_wrist_pitch_joint", "left_wrist_roll_joint",
+  "right_shoulder_pitch_joint", "right_shoulder_roll_joint", "right_arm_yaw_joint", "right_elbow_pitch_joint", "right_elbow_yaw_joint", "right_wrist_pitch_joint", "right_wrist_roll_joint"
+]
+
+home_q: [0.0, 0.0, 0.2, -0.4, 0.2, 0.0, 0.0, 0.0, 0.2, -0.4, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.15, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.15, 0.0, 0.0, 0.0, 0.0, 0.0]
+root_qpos_home: [0.0, 0.0, 0.9766298687300672, 1.0, 0.0, 0.0, 0.0]
+root_qpos_control: [0.0, 0.0, 0.9766298687300672, 1.0, 0.0, 0.0, 0.0]

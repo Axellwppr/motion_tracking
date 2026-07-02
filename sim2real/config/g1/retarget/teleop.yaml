@@ -1,0 +1,26 @@
+robot_key: g1
+
+retarget:
+  max_iter: 5
+  actual_human_height: 1.75
+  height_alignment:
+    enabled: true
+    xrobot_body_min_each_frame: false
+    foot_body_names: [left_toe_link, right_toe_link]
+    target_z: 0.0
+    bootstrap_frames: 10
+
+server:
+  req_bind_addr: tcp://*:28701
+  rep_bind_addr: tcp://*:28702
+  ctrl_bind_addr: tcp://*:28703
+  ctrl_fps: 50
+  vis_fps: 5
+  lookback_ms: 50.0
+  retarget_buffer_window_s: 0.5
+  log_interval_s: 1.0
+  visualize: true
+
+recorder:
+  period_ms: 20.0
+  output_dir: assets/data
