@@ -1,22 +1,30 @@
-# Whole Body Motion Tracking
+# G1 Compliance Motion Tracking
 
-This repository contains the training, evaluation, and deployment assets for a whole-body motion tracking policy built on top of the [GentleHumanoid](https://gentle-humanoid.axell.top) codebase.
+This branch contains the G1 tracking + compliance implementation for whole-body
+motion tracking. It is inspired by the Gentle Humanoid codebase and is kept as
+the `compliance` branch of
+[`Axellwppr/motion_tracking`](https://github.com/Axellwppr/motion_tracking).
 
-The main focus of this repository is:
+The focus of this branch is:
 
-* training a **universal**, **robust**, and **highly dynamic** whole-body motion tracking policy,
+* training a G1 whole-body motion tracking policy,
 * supporting upper-body **compliance-aware** behavior for contact-rich interaction,
-* supporting robust live **VR teleoperation** through a separate teleop stack.
+* supporting live **VR teleoperation** through the bundled sim2real/teleop stack.
+
+For the HEFT PMG/WPC training implementation, use the `main` branch. For the
+released deployment runtime and checkpoints, use the `sim2real` branch.
 
 The simulation and training backend is based on **mjlab**.
 
-A demo of the pretrained policy, showing one model generalizing across diverse and highly dynamic motions, is available [here](https://motion-tracking.axell.top).
+A demo of the G1 compliance policy is available
+[here](https://motion-tracking.axell.top).
 
 https://github.com/user-attachments/assets/263dd3cc-8d23-4d67-bd36-37fe89f525de
 
 https://github.com/user-attachments/assets/4d210dbf-8023-4270-b094-ab6a2353deda
 
-Instructions for deployment and runtime usage are available in the [`sim2real`](./sim2real) folder.
+Instructions for this branch's deployment and runtime usage are available in the
+[`sim2real`](./sim2real) folder.
 
 ## Installation
 
