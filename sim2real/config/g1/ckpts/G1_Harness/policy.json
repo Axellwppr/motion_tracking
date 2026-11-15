@@ -1,0 +1,14 @@
+{
+  "in_keys": [
+    "policy"
+  ],
+  "out_keys": [
+    "action"
+  ],
+  "in_shapes": [
+    [
+      1,
+      1184
+    ]
+  ]
+}

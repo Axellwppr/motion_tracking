@@ -11,6 +11,40 @@ This branch supports:
 It does not include training code or dataset generation code.
 The L7 hardware sim2real bridge is not part of this branch.
 
+## The `sim-to-real-harness` Branch
+
+This branch is the `sim2real` branch plus what the HITCH harness needs to drive the controller.
+The harness clones this branch; everything described in the rest of this README still works as on `sim2real`.
+
+Additions:
+
+- `sim2real/src/motion_channel.py`, `sim2real/src/runtime/external_motion_source.py`:
+  a third motion source, `motion_source.type: "external"`. Another process (the harness) hands reference
+  segments to `deploy.py` through memory-mapped files and reads the reference cursor and robot state back.
+- `deploy.py --controller-config PATH`: load a controller YAML from any path.
+- `target_joint_include_diff` in the tracking YAML (default `true`): `false` for checkpoints that observe
+  the target joints without the target-minus-current half.
+- ONNX inference does not pin the process to fixed cores. Pin it with `taskset` where needed
+  (see [G1 Sim2Real](#g1-sim2real)). `WBC_ORT_THREADS` sets the number of inference threads (default 4) and
+  `WBC_ORT_SPIN=0` turns off busy-waiting between evaluations.
+- The checkpoint `sim2real/config/g1/ckpts/G1_Harness/`.
+
+### `G1_Harness` is not a teleoperation checkpoint
+
+> **Do not use `G1_Harness` for teleoperation (VR / XR / PICO) or for playback of retargeted human motion.**
+
+`G1_Harness` is trained specifically for the harness:
+
+- It is trained for a G1 that carries **Dex3 hands or rubber hands**.
+- It is trained on **clean references only**: the smooth, physically consistent reference motion that the
+  harness plans. It has not seen the noise, jitter and retargeting artefacts of live teleoperation input, and it
+  is **not compatible with teleoperation**. Driving it from `motion_source.type: "vr"` or from arbitrary
+  `.npz` motions can make the robot fall.
+
+It is used only through `motion_source.type: "external"`, with the tracking YAML that the harness writes from
+`G1_Harness/deploy.yaml`. There is deliberately no `tracking.yaml` for it in `config/g1/`.
+For teleoperation and motion playback use `G1_PMG` or `G1_Compliance`.
+
 ## Directory Layout
 
 ```text
@@ -38,6 +72,8 @@ g1_sim2real/
 ## Checkpoints And Motions
 
 This release includes G1/L7 PMG checkpoints and a G1 compliance checkpoint.
+This branch also has `sim2real/config/g1/ckpts/G1_Harness/`, which is for the HITCH harness only and
+[must not be used for teleoperation](#g1_harness-is-not-a-teleoperation-checkpoint).
 Checkpoint and motion assets live under each robot config directory:
 
 ```text
@@ -259,8 +295,8 @@ G1_NET=eth0 bash scripts/run_bridge.sh
 ```
 
 The G1 onboard CPU is relatively weak, so it is recommended to pin the runtime
-processes to separate CPU cores. By default, the policy runtime pins ONNX
-inference to cores `4-7`. The following split has worked well:
+processes to separate CPU cores. The policy runtime does not pin
+itself, so pin it with `taskset`. The following split has worked well:
 
 Terminal 1 starts the VR teleop bridge:
 

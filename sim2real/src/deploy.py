@@ -379,9 +379,14 @@ if __name__ == "__main__":
         action="store_true",
         help="Disable policy run recording.",
     )
+    parser.add_argument(
+        "--controller-config",
+        default=None,
+        help="Controller YAML to load instead of config/<robot>/controller.yaml.",
+    )
     args = parser.parse_args()
 
-    controller = Controller(args, get_config(controller_config_path(args.robot)))
+    controller = Controller(args, get_config(args.controller_config or controller_config_path(args.robot)))
 
     controller.zero_torque_state()
     controller.move_to_default_qpos()

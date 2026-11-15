@@ -110,11 +110,13 @@ class TargetJointPosObs:
     def __init__(self, policy):
         self.policy = policy
         self.future_steps = _policy_future_steps(policy)
+        # Some checkpoints observe target joints only, without the target-minus-current half.
+        self.include_diff = bool(getattr(policy.config, "target_joint_include_diff", True))
 
     @property
     def size(self) -> int:
         n_j = getattr(self.policy, "n_joints", 0)
-        return len(self.future_steps) * n_j * 2
+        return len(self.future_steps) * n_j * (2 if self.include_diff else 1)
 
     def reset(self):
         pass
@@ -129,6 +131,8 @@ class TargetJointPosObs:
         T = self.policy.ref_len
         fut_idx = _clamp_indices(base + self.future_steps, T)
         tgt_joints = self.policy.ref_joint_pos[fut_idx]
+        if not self.include_diff:
+            return tgt_joints.reshape(-1).astype(np.float32)
         cur_joints = self.policy.controller.qj.astype(np.float32).reshape(1, -1)
         tgt_minus_cur = tgt_joints - cur_joints
         return np.concatenate(

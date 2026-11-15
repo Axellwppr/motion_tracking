@@ -36,33 +36,18 @@ def benchmark_onnx(module, sample_input, runs=100, warmup=10, desc=""):
 
 
 class ONNXModule:
-    CPU_AFFINITY = (4, 5, 6, 7)
-    CPU_THREADS = len(CPU_AFFINITY)
-
-    @classmethod
-    def _bind_process_to_first_cpus(cls) -> None:
-        if not hasattr(os, "sched_getaffinity") or not hasattr(os, "sched_setaffinity"):
-            return
-        try:
-            allowed = sorted(os.sched_getaffinity(0))
-            target = [cpu for cpu in cls.CPU_AFFINITY if cpu in allowed]
-            if len(target) != len(cls.CPU_AFFINITY):
-                print(
-                    f"[ONNXModule] Requested CPUs {list(cls.CPU_AFFINITY)} but only "
-                    f"{target} are available in current affinity mask {allowed}"
-                )
-            if len(target) >= 1:
-                os.sched_setaffinity(0, set(target))
-                print(f"[ONNXModule] Bound process affinity to CPUs {target}")
-        except Exception as e:
-            print(f"[ONNXModule] Failed to set process affinity: {e}")
+    # Threads for one policy evaluation. The process is not pinned: the OS picks
+    # the cores.
+    CPU_THREADS = 4
 
     def __init__(self, path: str):
-        self._bind_process_to_first_cpus()
         sess_options = ort.SessionOptions()
-        sess_options.intra_op_num_threads = self.CPU_THREADS
+        # WBC_ORT_THREADS / WBC_ORT_SPIN=0 (a controller that shares a few cores with a simulator): fewer threads
+        # and no busy-waiting between evaluations. Unset: CPU_THREADS threads, with busy-waiting.
+        sess_options.intra_op_num_threads = int(os.environ.get("WBC_ORT_THREADS", self.CPU_THREADS))
         sess_options.inter_op_num_threads = 1
-        # sess_options.add_session_config_entry("session.intra_op.allow_spinning", "0")
+        if os.environ.get("WBC_ORT_SPIN") == "0":
+            sess_options.add_session_config_entry("session.intra_op.allow_spinning", "0")
         self.ort_session = ort.InferenceSession(
             path,
             sess_options=sess_options,
@@ -256,8 +241,8 @@ class TrackingPolicyRaw(Policy):
         self.switch_tail_keep_steps = max(configured_tail, self.future_history_len)
         motion_source_cfg = getattr(policy_cfg, "motion_source")
         self.motion_source = str(motion_source_cfg["type"]).strip().lower()
-        if self.motion_source not in ("udp", "vr"):
-            raise ValueError(f"[TrackingPolicyRaw] motion_source must be 'udp' or 'vr', got '{self.motion_source}'")
+        if self.motion_source not in ("udp", "vr", "external"):
+            raise ValueError(f"[TrackingPolicyRaw] motion_source must be 'udp', 'vr' or 'external', got '{self.motion_source}'")
         self.ref_max_len = int(getattr(policy_cfg, "ref_max_len", 2048))
         self.use_compliance_flag_obs = bool(getattr(policy_cfg, "use_compliance_flag_obs", True))
 
@@ -283,8 +268,12 @@ class TrackingPolicyRaw(Policy):
         self.source: MotionSourceBase
         if self.motion_source == "udp":
             self.source = UDPMotionSource(self, policy_cfg)
-        else:
+        elif self.motion_source == "vr":
             self.source = VRMotionSource(self, policy_cfg)
+        else:
+            from runtime.external_motion_source import ExternalMotionSource
+
+            self.source = ExternalMotionSource(self, policy_cfg)
         self.motions = self.source.motions
 
         super().__init__(name, policy_cfg, controller)
